@@ -1,0 +1,23 @@
+{"personas":{"liberal":{"description":"is politically liberal", "field":"POLIDEOLOGY", "values":["Very liberal", "Liberal"]},
+"conservative":{"description":"is politically conservative", "field":"POLIDEOLOGY", "values":["Very conservative", "Conservative"]},
+
+"white":{"description":"identifies as White", "field":"RACE", "values":["White"]},
+"black":{"description":"identifies as Black", "field":"RACE", "values":["Black"]},
+"asian":{"description":"identifies as Asian", "field":"RACE", "values":["Asian"]},
+"hispanic":{"description":"identifies as Hispanic", "field":"RACE", "values":["Hispanic"]},
+
+"male":{"description":"identifies as male", "field":"SEX", "values":["Male"]},
+"female":{"description":"identifies as female", "field":"SEX", "values":["Female"]},
+
+"nonreligious":{"description":"does not subscribe to any religion", "field":"RELIG", "values":["Atheist", "Agnostic", "Nothing in particular"]},
+"religious":{"description":"subscribes to a religion", "field":"RELIG", "values":["Protestant", "Roman Catholic", "Mormon", "Orthodox", "Jewish", "Buddhist", "Muslim", "Hindu"]},
+"christian":{"description":"subscribes to Christianity", "field":"RELIG", "values":["Protestant", "Roman Catholic", "Mormon", "Orthodox"]},
+"jewish":{"description":"subscribes to Judaism", "field":"RELIG", "values":["Jewish"]},
+"buddhist":{"description":"subscribes to Buddhism", "field":"RELIG", "values":["Buddhist"]},
+"hindu":{"description":"subscribes to Hinduism", "field":"RELIG", "values":["Hindu"]},
+"muslim":{"description":"subscribes to Islam", "field":"RELIG", "values":["Muslim"]},
+
+"nocollege":{"description":"did not attend college", "field":"EDUCATION", "values":["Less than high school", "High school graduate"]},
+"somecollege":{"description":"attended college, but did not graduate", "field":"EDUCATION", "values":["Some college, no degree"]},
+"collegegraduate":{"description":"graduated from college", "field":"EDUCATION", "values":["Associate's degree", "College graduate/some postgrad", "Postgraduate"]}
+}}
