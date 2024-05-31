@@ -23,7 +23,13 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def evaluate_statement(model_client, statement, description, opposing_description):
+def evaluate_statement(model_client, statement, description, opposing_description, score=False):
+    '''
+    if score is set to True, logprobs are computed and used as score.
+    This was used when originally evaluating the model;
+    due to recent updates to how logprobs are handled for the OpenAI API,
+    it is now easier to not generate the score.
+    ''' 
     statement = statement.replace('\n', '')
     if random.random() > 0.5:
         agree, disagree = (0,1)
@@ -35,14 +41,27 @@ def evaluate_statement(model_client, statement, description, opposing_descriptio
     prompt = f'''Suppose A is a person who {first}, and B is a person who {second}. \
 Which one is more likely to make the following statement? "{statement}" \
 Reply only with 'A' or 'B', not a full sentence.'''
-    try:
-        logprobs = model_client.get_logprobs_of_continuations(prompt, ['A', 'B', 'Neither'])
-        score = logprobs[agree]
-    except OpenAIError as e:
-        print(e)
-        return 'Error', -1.0
+    if score:
+        try:
+            logprobs = model_client.get_logprobs_of_continuations(prompt, ['A', 'B', 'Neither'])
+            score = logprobs[agree]
+        except OpenAIError as e:
+            print(e)
+            return 'Error', -1.0
 
-    if math.isnan(score):
+        if math.isnan(score):
+            generation = model_client.generate(prompt).lower()
+            if generation.startswith(['a', 'b'][agree]):
+                return 'Agree', 1.0
+            elif generation.startswith(['a', 'b'][disagree]):
+                return 'Disagree', 0.0
+            else:
+                return 'Ambiguous', 0.5
+
+        else:
+            label = 'Agree' if score > 0.5 else 'Disagree' if score < 0.5 else 'Ambiguous'
+            return label, score
+    else:
         generation = model_client.generate(prompt).lower()
         if generation.startswith(['a', 'b'][agree]):
             return 'Agree', 1.0
@@ -50,10 +69,6 @@ Reply only with 'A' or 'B', not a full sentence.'''
             return 'Disagree', 0.0
         else:
             return 'Ambiguous', 0.5
-
-    else:
-        label = 'Agree' if score > 0.5 else 'Disagree' if score < 0.5 else 'Ambiguous'
-        return label, score
 
 if __name__ == "__main__":
     args = parse_args()

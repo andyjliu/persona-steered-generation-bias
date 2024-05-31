@@ -69,7 +69,7 @@ class gpt_wrapper():
             temperature=self.temp, 
             max_tokens=self.max_tokens, 
             stop = self.stop_sequences,
-            messages=[{"role": "user", "content": prompt}]) #top p is temporary
+            messages=[{"role": "user", "content": prompt}]) 
             return(completion.choices[0].message.content)
 
         except openai.APIError:
